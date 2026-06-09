@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  debug:
+    verbosity: detailed  ## will show detailed spans
+  otlphttp/lgtm:
+    endpoint: http://host.docker.internal:4320
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/lgtm]
+    
+    metrics:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/lgtm]
+      
+    logs:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/lgtm]
